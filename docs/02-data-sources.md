@@ -61,3 +61,50 @@ between 1980 and 2026. A consistent crosswalk is a precondition for everything e
 - `data/raw/` is gitignored. If a source disappears, the only recovery is the note you wrote
   here. Write the note.
 - Scripts in `src/` must rebuild `data/processed/` from `data/raw/` with no manual steps.
+
+---
+
+## Provenance of what is actually in the repo (2026-10-21)
+
+`data/raw/results.csv` is committed (an explicit exception in `.gitignore`): it is small,
+it is public official results, and the 2026 round is not available from ONPE's open-data
+portal at all. Built by `src/build_results.py` from two community mirrors cloned from
+GitHub — the only host this environment can reach.
+
+| Election | Source repo | Original source | Unit as published |
+|---|---|---|---|
+| 2021 first round | `jmcastagnetto/2021-elecciones-generales-peru-datos-de-onpe` | scraped from `resultados.eleccionesgenerales2021.pe` | district |
+| 2026 second round | `oscarzamora/onpe-scraper-2026-2` | scraped from the ONPE 2026 runoff results API | mesa de sufragio, aggregated to district here |
+
+Also cloned, for the UBIGEO problem: `jmcastagnetto/ubigeo-peru-aumentado`
+(RENIEC↔INEI district code crosswalk). ONPE uses the **RENIEC** ubigeo, not INEI.
+
+### Validation
+
+2026 second round, aggregated from 92,766 counted actas:
+
+| | this aggregation | published | diff |
+|---|---|---|---|
+| Fujimori (Fuerza Popular) | 9,223,397 | 9,223,396 | +1 |
+| Sánchez (Juntos por el Perú) | 9,173,739 | 9,173,755 | −16 |
+| share | 50.13% / 49.87% | ~50.1% / ~49.9% | — |
+
+Essentially exact. The 2026 data is sound.
+
+### Known limitation on 2021
+
+The 2021 mirror is a near-final snapshot (`date_upd` 2021-05-11), not the certified final
+count. It gives Fujimori 13.40% of valid votes against an official 13.41%, and Castillo
+19.06% against an official 18.92%; total valid votes are about 1% below the official figure.
+Fine for exploratory work, but **refresh from ONPE's open data before publishing** — the
+mirror's own README notes ONPE later released the first round at
+`datosabiertos.gob.pe/dataset/resultados-por-mesa-de-las-elecciones-presidenciales-2021-primera-vuelta-oficina-nacional-de`.
+
+### Still missing, and why
+
+`cvr_deaths.csv`, `padron_age.csv` and `controls.csv` could not be obtained. This
+environment's network policy gives **no DNS resolution at all** for onpe.gob.pe,
+infogob.jne.gob.pe, inei.gob.pe, datosabiertos.gob.pe, cverdad.org.pe, ruv.gob.pe,
+arxiv.org, dataverse.harvard.edu, zenodo.org, data.humdata.org and ourworldindata.org.
+Only GitHub, PyPI and npm are reachable. A search of GitHub-hosted mirrors found no
+district-level CVR death counts; none appears to exist publicly.

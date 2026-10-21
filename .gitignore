@@ -4,6 +4,9 @@ data/interim/*
 data/processed/*
 !data/**/.gitkeep
 !data/README.md
+# Exception: small, public, official election results. The 2026 runoff is not
+# available from ONPE's open-data portal, so this file is the only copy we have.
+!data/raw/results.csv
 
 # Papers and PDFs
 refs/*

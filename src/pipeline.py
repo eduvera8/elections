@@ -134,9 +134,12 @@ def build_panel(inp: dict[str, pd.DataFrame | None]) -> pd.DataFrame:
         cast = res["valid_votes"] + res.get("blank_null_votes", 0)
         res["turnout"] = 100 * cast / res["registered"].replace(0, np.nan)
 
-    panel = res.merge(
-        conflict_measures(inp["deaths"], inp["controls"]), on="ubigeo", how="left"
-    )
+    if inp["deaths"] is not None:
+        panel = res.merge(
+            conflict_measures(inp["deaths"], inp["controls"]), on="ubigeo", how="left"
+        )
+    else:
+        panel = res
     if inp["controls"] is not None:
         extra = [c for c in inp["controls"].columns
                  if c not in ("ubigeo", "population")]
@@ -251,6 +254,42 @@ def cohort_test(panel: pd.DataFrame, outcome: str, rnd: int = 1):
     return fit, f"N={n}, {d['ubigeo'].nunique():,} districts"
 
 
+def descriptives(panel: pd.DataFrame) -> None:
+    """What the outcome data alone can say, with no conflict measure."""
+    for (year, rnd), g in panel.groupby(["year", "round"]):
+        print(f"\n  {int(year)} round {int(rnd)} — {len(g):,} districts")
+        for col in ["fujimorista_share", "left_share", "blank_null_share", "turnout"]:
+            if col in g.columns and g[col].notna().any():
+                v = g[col].dropna()
+                print(f"    {col:20} mean {v.mean():6.2f}  sd {v.std():6.2f}  "
+                      f"min {v.min():6.2f}  max {v.max():6.2f}")
+
+    # Is the fujimorista geography stable across elections?
+    wide = panel.pivot_table(index="ubigeo", columns="year",
+                             values="fujimorista_share", aggfunc="mean")
+    years = [c for c in wide.columns]
+    if len(years) >= 2:
+        print("\n  Cross-election correlation of district fujimorista share:")
+        for i, a in enumerate(years):
+            for b in years[i + 1:]:
+                d = wide[[a, b]].dropna()
+                if len(d) > 10:
+                    r = d[a].corr(d[b])
+                    print(f"    {int(a)} vs {int(b)}:  r = {r:+.3f}   "
+                          f"(n = {len(d):,} districts)")
+
+    # Did the left's base in one election predict the fujimorista vote in the next?
+    lw = panel.pivot_table(index="ubigeo", columns="year",
+                           values="left_share", aggfunc="mean")
+    if len(years) >= 2 and len(lw.columns) >= 2:
+        a, b = years[0], years[-1]
+        d = pd.concat([lw[a].rename("left_early"),
+                       wide[b].rename("fuji_late")], axis=1).dropna()
+        if len(d) > 10:
+            print(f"\n  Left share {int(a)} vs fujimorista share {int(b)}:  "
+                  f"r = {d['left_early'].corr(d['fuji_late']):+.3f}  (n = {len(d):,})")
+
+
 # ---------------------------------------------------------------- report
 
 
@@ -268,6 +307,19 @@ def report(panel: pd.DataFrame, inp: dict) -> None:
             for yr, v in prof.items():
                 bar = "#" * int(round(v * 40))
                 print(f"    {int(yr)}  {v:5.3f}  {bar}")
+
+    print("\n" + "=" * 78)
+    print("DESCRIPTIVES — outcome side only, no conflict measure needed")
+    print("=" * 78)
+    descriptives(panel)
+
+    if "diff_pc" not in panel.columns:
+        print("\n" + "=" * 78)
+        print("MODELS A/B/C NOT RUN")
+        print("=" * 78)
+        print("  cvr_deaths.csv is missing, so there is no conflict measure and no")
+        print("  hypothesis to test. See docs/07-data-shopping-list.md.")
+        return
 
     print("\n" + "=" * 78)
     print("MODEL A — per-election cross-sections (De la Calle replication)")
@@ -339,11 +391,10 @@ def main(argv: list[str] | None = None) -> int:
 
     data_dir = Path(args.data)
     inp = load_inputs(data_dir)
-    for key, spec in [("results", schema.RESULTS), ("deaths", schema.DEATHS)]:
-        if inp[key] is None:
-            print(f"\nCannot proceed: {spec.filename} is required.")
-            print("Run `python3 src/schema.py` to see every expected file and column.")
-            return 1
+    if inp["results"] is None:
+        print(f"\nCannot proceed: {schema.RESULTS.filename} is required.")
+        print("Run `python3 src/schema.py` to see every expected file and column.")
+        return 1
     report(build_panel(inp), inp)
     return 0
 
