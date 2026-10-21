@@ -1,35 +1,55 @@
 # src/
 
-Scripts that turn `data/raw/` into `data/processed/`. Nothing here should require a manual
-step; anyone cloning this repo should be able to rebuild every analysis panel from scratch.
+Scripts that turn `data/raw/` into results. Nothing here needs a manual step.
+
+## Run it
+
+```bash
+python3 src/schema.py                            # what files and columns are expected
+python3 src/make_synthetic.py                    # write synthetic test data
+PYTHONPATH=src python3 src/pipeline.py --data data/synthetic   # prove the pipeline works
+PYTHONPATH=src python3 src/pipeline.py           # the real thing, once data/raw/ is filled
+python3 src/test_exposure.py                     # unit checks on the cohort arithmetic
+```
 
 ## What exists
 
 | File | Status | What it does |
 |---|---|---|
-| `exposure.py` | **working, tested** | Cohort-exposure arithmetic: converts a banded age distribution of a district's electorate into the share with firsthand conflict exposure. Implements the design in `docs/03-age-heterogeneity.md` |
-| `test_exposure.py` | **working** | 9 checks on the above. Run `python3 src/test_exposure.py` (no pytest needed) |
+| `schema.py` | working | Expected input files, columns, and validation. The contract with whoever collects the data |
+| `exposure.py` | working, tested | Cohort-exposure arithmetic: banded age distribution → share of the electorate with firsthand conflict exposure |
+| `test_exposure.py` | working | 9 checks on the above |
+| `pipeline.py` | working, validated | Builds the district × election panel and runs Models A, B and C |
+| `make_synthetic.py` | working | Synthetic data matching the schema, for testing. Writes to `data/synthetic/`, never `data/raw/` |
 
-## What does not exist yet, in build order
+## The models
 
-1. `build_district_crosswalk.py` — map every district-year to a stable 1993-vintage unit.
-   **Must come first**; see `docs/05-threats-to-inference.md` §4.
-2. `fetch_election_results.py` — district results for the eight elections from JNE Infogob
-   and ONPE. Cross-check the two against each other.
-3. `fetch_padron_age.py` — padrón electoral by district × sex × age group. Feeds `exposure.py`.
-   Highest-value acquisition after the crosswalk.
-4. `build_conflict_panel.py` — CVR/RUV victim records aggregated to district × perpetrator ×
-   period. Must support both the CVR and the Rendón attributions (see §2 of the threats doc).
-5. `build_analysis_panel.py` — join the above into one district × election panel.
+- **Model A** — one OLS per election year. Reproduces De la Calle's design, extended to all
+  eight elections.
+- **Model B** — pooled, district fixed effects, conflict × year interactions. The formal decay
+  test his six separate cross-sections cannot perform.
+- **Model C** — conflict × `exposed_share`, district fixed effects. **The novel test**: does the
+  conflict gradient live in cohorts with firsthand memory? Needs `padron_age.csv`.
 
-No fetch script has been written, because the environment this repo was set up in had no
-outbound network access, and shipping untested download code that claims to work would be
-worse than shipping none. The endpoints are recorded in `docs/02-data-sources.md`; verify
-them before writing against them.
+## Pipeline validation
 
-## Conventions
+`make_synthetic.py` plants a data-generating process in which the conflict gradient acts
+*only* through exposed cohorts, with a true interaction coefficient of 0.40. Running the
+pipeline on it recovers:
 
-- Scripts read from `data/raw/`, write to `data/interim/` or `data/processed/`, and never
-  modify `data/raw/`.
-- Every script prints what it read and what it wrote.
-- Record the URL and retrieval date of anything downloaded in `docs/02-data-sources.md`.
+- **Model C**: `diff_x_exposed` = 0.4449 (SE 0.0449) — the planted value, within about one SE.
+- **Model A**: betas falling 0.36 → 0.15 across 1995–2026, the decay that cohort replacement
+  produces mechanically.
+- **Model B**: joint test rejects constant interactions, F = 21.63, p < 0.0001.
+
+So the pipeline detects the effect we are looking for when it is present. **Those numbers are
+from invented data and are not findings about Peru.**
+
+## Still to write
+
+1. `build_district_crosswalk.py` — stable district units across 1995–2026. Needed before the
+   full panel; see `docs/05-threats-to-inference.md` §4.
+2. Fetch scripts. Deliberately absent: this environment's network policy blocks every data
+   host, so download code could not be tested, and untested fetch code that claims to work is
+   worse than none. Endpoints are in `docs/02-data-sources.md`, requirements in
+   `docs/07-data-shopping-list.md`.

@@ -30,3 +30,6 @@ venv/
 *~
 .vscode/
 .idea/
+
+# Synthetic test data — regenerate with src/make_synthetic.py
+data/synthetic/

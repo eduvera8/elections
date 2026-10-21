@@ -59,6 +59,7 @@ district-level geography is unusually clean to interpret.
 | `docs/04-literature.md` | Annotated reading list |
 | `docs/05-threats-to-inference.md` | FONCODES, displacement, attribution dispute, district splits |
 | `docs/06-delacalle-2024-notes.md` | Full reading notes on the paper this project builds from |
+| `docs/07-data-shopping-list.md` | **What data is needed, in priority order** |
 | `docs/GIT-BASICS.md` | How this repo works, if you're new to git/GitHub |
 
 ## Layout
@@ -78,7 +79,16 @@ should be able to clone this repo, run `src/`, and rebuild `data/processed` from
 
 ## Status
 
-Scaffolding only. No data has been downloaded and no analysis has been run. The scripts in
-`src/` are documented stubs — the endpoints in them are recorded from documentation and
-**have not been tested**, because the environment this was set up in had no outbound
-network access.
+**Analysis pipeline is built and validated. No data has been collected.**
+
+`python3 src/pipeline.py` builds the panel and runs three models; it degrades gracefully and
+reports what each missing input would unlock. It has been validated end to end on synthetic
+data with a planted effect, which it recovers (see `src/README.md`). The moment real CSVs land
+in `data/raw/`, results come out.
+
+No data has been downloaded because this environment's network policy blocks every relevant
+host — ONPE, JNE Infogob, INEI, datosabiertos.gob.pe, the CVR and the RUV, plus Mendeley,
+Zenodo and Dataverse. Only GitHub is reachable, which is why the De la Calle PDF could be read
+at all. Fetch scripts are deliberately absent rather than written-but-untested.
+
+**Start here: `docs/07-data-shopping-list.md`.** Two files are enough for a first real answer.
