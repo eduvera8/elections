@@ -16,21 +16,32 @@ give Fujimori a premium and the left a penalty, robust to crime, poverty, COVID-
 and long-run marginalisation; Castillo partly offset it in 2021 in poor and COVID-hit
 districts.
 
-**That paper has not been read yet** — the environment had no network access and the upload
-did not arrive. Read it first and revise this document. Everything here assumes the summary
-above is accurate; confirm the specification, the controls, and whether it uses runoffs or
-only first rounds before claiming any gap.
+Full reading notes, with the exact specification and coefficient table, are in
+`06-delacalle-2024-notes.md`. The headline: it is **six separate OLS cross-sections** (one per
+candidate-year) with macro-region dummies — no panel, no district fixed effects, no
+instrument, first rounds only.
 
-Four extensions, in order of how defensible they are:
+**Its conclusion proposes this project's hypothesis and does not test it:** the legacy
+"seems to be waning... perhaps related to the decreasing political clout of the age cohorts
+with direct experience of the conflict." He has no age data, no cohort measure, and no panel
+in which to estimate a decay rate. That is the opening.
+
+Five extensions, in order of how defensible they are:
 
 1. **Panel extension backwards (1995, 2000, 2001, 2006).** Covers the period when the
    mechanism formed and Alberto was personally on the ballot.
 2. **Panel extension forwards (2026).** New data; first fujimorista win since 1995.
 3. **Age/cohort heterogeneity and the cohort-replacement test.** See `03-age-heterogeneity.md`.
 4. **Three-way perpetrator split** — Sendero / armed forces / rondas campesinas-CADs —
-   instead of a single ratio. The rondas were state-allied but locally recruited and locally
-   commanded; blame attribution should behave differently for them than for the army, and
-   nobody appears to have separated them.
+   instead of a single difference. The rondas were state-allied but locally recruited and
+   locally commanded; blame attribution should behave differently for them than for the army,
+   and nobody appears to have separated them.
+5. **Fix the two-sided-violence problem.** De la Calle's key regressor is SP deaths *minus*
+   state deaths, adopted because the two counts correlate at 0.76. He concedes it assigns
+   zero both to peaceful districts and to districts with heavy violence from both sides —
+   which is most of Ayacucho, Huancavelica and Apurímac, the districts that matter most.
+   Entering the two counts separately with an explicit two-sided-violence interaction, or
+   using a ratio with an intensity term, recovers that variation.
 
 ## Outcomes
 

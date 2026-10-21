@@ -26,17 +26,23 @@ against ONPE before use**. See `docs/02-data-sources.md`.
 
 ## Why this is publishable
 
-The closest existing paper — De la Calle (2024), *Electoral Studies* 90:102827 — covers
-**2011, 2016 and 2021 only**, and finds that districts hit harder by *Sendero* violence
-(relative to state violence) give Keiko a premium and the left a penalty. This project
-extends that in three directions it cannot reach:
+The closest existing paper — De la Calle (2024), *Electoral Studies* 90:102827, PDF at the
+repository root — covers **2011, 2016 and 2021 only**, as six separate OLS cross-sections, and
+finds that districts hit harder by *Sendero* violence (relative to state violence) give Keiko a
+premium and the left a penalty.
+
+Crucially, it observes that gradient **weakening** across the three elections and attributes
+this, in its conclusion, to "the decreasing political clout of the age cohorts with direct
+experience of the conflict" — then does not test it, having no age data, no cohort measure and
+no panel. This project extends it in three directions it cannot reach:
 
 1. **The long panel.** 1995, 2000, 2001 and 2006 are uncovered. The 1990s are where the
    mechanism was formed, with Alberto personally on the ballot and the war still fresh.
 2. **2026.** Brand new, and the first fujimorista presidential win since 1995.
-3. **Age / cohort heterogeneity.** The memory mechanism implies the effect should live in
-   cohorts who experienced the violence firsthand and should decay as those cohorts leave
-   the electorate. An eight-election panel can test that; three elections cannot.
+3. **Age / cohort heterogeneity — running the test De la Calle proposes.** The memory
+   mechanism implies the effect should live in cohorts who experienced the violence firsthand
+   and should decay as those cohorts leave the electorate, at a rate that cohort-replacement
+   data predicts. An eight-election panel can test that; three cross-sections cannot.
    See `docs/03-age-heterogeneity.md` — this is the core analytical contribution.
 
 A useful accident of the data: the 2011, 2016, 2021 and 2026 runoffs were all near-ties
@@ -52,6 +58,7 @@ district-level geography is unusually clean to interpret.
 | `docs/03-age-heterogeneity.md` | The cohort design — three routes, exposure arithmetic |
 | `docs/04-literature.md` | Annotated reading list |
 | `docs/05-threats-to-inference.md` | FONCODES, displacement, attribution dispute, district splits |
+| `docs/06-delacalle-2024-notes.md` | Full reading notes on the paper this project builds from |
 | `docs/GIT-BASICS.md` | How this repo works, if you're new to git/GitHub |
 
 ## Layout

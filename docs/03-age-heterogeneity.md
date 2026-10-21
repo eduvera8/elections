@@ -5,6 +5,12 @@
 > concentrated in cohorts who experienced the violence firsthand, and must decay as those
 > cohorts leave the electorate.**
 
+> De la Calle (2024) — the leading paper in this literature — finds the conflict gradient
+> weakening across 2011, 2016 and 2021 and attributes it, in his conclusion, to "the
+> decreasing political clout of the age cohorts with direct experience of the conflict."
+> He does not test it: no age data, no cohort measure, no panel. See
+> `06-delacalle-2024-notes.md`. **Our job is to run that test.**
+
 ## 1. The exposure arithmetic
 
 The conflict ran 1980–2000, with peaks around 1983–84 and 1989–92. Guzmán was captured in

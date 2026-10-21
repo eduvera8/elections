@@ -6,15 +6,18 @@ without network access to the papers themselves, from abstracts and secondary su
 
 ## Read first
 
-**De la Calle (2024), "When rebels lose: The impact of civil war legacies on contemporary
-electoral outcomes in Peru, 2011–2021," *Electoral Studies* 90:102827.** `[UNREAD]`
-Open access (CC BY); copies at Warwick WRAP (eprint 190657) and White Rose (eprint 233457).
-The direct precedent and the paper to beat. District-level, first rounds of 2011/2016/2021,
-Keiko plus three left candidates, key regressor = Sendero deaths relative to security-force
-deaths, plus Sendero territorial presence. Finds a Fujimori premium and a left penalty in
-conflict-affected districts, robust to crime, poverty, COVID-19 deaths and long-run
-marginalisation; Castillo partly offsets it in 2021 in poor and COVID-hit districts.
-**Read this before writing anything else, and revise `01-research-design.md` accordingly.**
+**De la Calle, Luis (2024), "When rebels lose: The impact of civil war legacies on
+contemporary electoral outcomes in Peru, 2011–2021," *Electoral Studies* 90:102827.**
+`[READ — full notes in 06-delacalle-2024-notes.md]` Open access, CC BY; PDF committed at the
+repository root. University of Sheffield.
+The direct precedent and the paper to beat. Six OLS cross-sections, district level, first
+rounds of 2011/2016/2021, Keiko plus Humala/Mendoza/Castillo; key regressor = SP deaths minus
+security-force deaths, plus a three-level wartime rebel-control measure built from Sendero's
+disruption of the 1980–89 municipal elections. Finds a Fujimori premium and a left penalty in
+conflict-affected districts, robust to crime, poverty, COVID-19 deaths and marginalisation.
+**Its conclusion names the age-cohort mechanism as the likely reason the legacy is waning and
+does not test it.** No panel, no fixed effects, no instrument, no engagement with the Rendón
+dispute, no FONCODES.
 
 ## The data dispute (read all four, in order)
 
@@ -47,9 +50,16 @@ obstacle.
 ## Fujimorismo and the party system
 
 - **Schady (2000), "The Political Economy of Expenditures by the Peruvian Social Fund
-  (FONCODES), 1991–95," *APSR* 94(2):289–304.** `[UNREAD]` The FONCODES confound. Province-level;
+  (FONCODES), 1991–95," *APSR* 94(2):289–304.** `[UNREAD]` The FONCODES channel. Province-level;
   spending rose before elections and was steered where it would have most political effect.
   Check whether conflict intensity enters as a separate variable — the summaries do not say.
+  De la Calle never cites it; he proxies the public-goods channel with electricity-access
+  growth instead. See `05-threats-to-inference.md` §1.
+- **Kreiman (2021)** and **Soifer & Vieira (2019)** `[UNREAD]` — De la Calle's sources for the
+  claim that Fujimori invested strategically in war-affected towns. Kreiman is also the source
+  of his 1993–2007 electricity-access data.
+- **León (2012)** is cited by De la Calle for the dichotomised-violence robustness check,
+  confirming the citation and that the CVR data is a sub-sample of all killings.
 - Levitsky, "Fujimori and Post-Party Politics in Peru," *Journal of Democracy*. `[UNREAD]`
 
 ## Terruqueo (all qualitative — the measurement gap)
@@ -74,6 +84,7 @@ hard-hit areas, and the US co-partisan reward / out-partisan punishment results.
 1. No study covers 1995, 2000, 2001 or 2006 at district level with conflict intensity.
 2. No study covers 2026.
 3. No study separates rondas campesinas/CADs from army violence.
-4. No study tests age/cohort heterogeneity or cohort-replacement decay.
+4. No study tests age/cohort heterogeneity or cohort-replacement decay — De la Calle
+   proposes it in his conclusion and leaves it untested.
 5. No study uses blank/null voting as an outcome.
 6. No quantitative measurement of terruqueo's electoral effect.

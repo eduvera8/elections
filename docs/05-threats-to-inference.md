@@ -15,10 +15,18 @@ If both are true, then "conflict intensity → fujimorista vote" is partly, or w
 this is distant enough to be second-order. **For 1995 and 2000 it is binding**, and those are
 precisely the elections this project adds.
 
-Do not treat this as a nuisance control. Get district- or province-level FONCODES allocations
-(MEF, or Schady's replication data) and make the mediation explicit. Handled well it becomes
-the paper's mechanism section rather than its fatal flaw: did fujimorismo buy these districts,
-or did they come to it on their own?
+**What De la Calle (2024) does and does not do here.** He runs a mediation analysis on the
+clientelism channel and finds negligible average causal mediation effects — but his proxy for
+Fujimori-era public-goods provision is **growth in district electricity access from 1993 to
+2007** (data from Kreiman 2021). That window spans two post-Fujimori administrations and
+conflates national electrification policy with targeted political spending. FONCODES is never
+mentioned in the paper, and Schady (2000) is not cited.
+
+So the channel is not unexamined, but it has not been tested with actual spending data, and
+certainly not on the elections where it matters most. Get district- or province-level FONCODES
+allocations (MEF, or Schady's replication data) and redo the mediation on 1995 and 2000.
+Handled well this becomes the paper's mechanism section rather than its fatal flaw: did
+fujimorismo buy these districts, or did they come to it on their own?
 
 ## 2. Perpetrator attribution is academically disputed
 
@@ -39,7 +47,9 @@ split is contested:
 - Rendón's rejoinder holds the line. The dispute is unresolved.
 
 **Implication for this project.** The disagreement has so far been fought purely on statistical
-grounds, with no downstream application. Run the entire analysis under both attributions. If
+grounds, with no downstream application — De la Calle (2024) does not cite Rendón at all, and
+works from the CVR's roughly 11,000 fully documented deaths (53% attributed to Sendero) while
+acknowledging the database is only a sub-sample. Run the entire analysis under both attributions. If
 the results are stable, the paper is robust to the most serious objection available. If the sign
 flips, that *is* the paper — the first substantive demonstration that the dispute changes a
 real conclusion.
