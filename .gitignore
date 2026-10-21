@@ -1,0 +1,32 @@
+# Data — rebuildable from src/, never committed
+data/raw/*
+data/interim/*
+data/processed/*
+!data/**/.gitkeep
+!data/README.md
+
+# Papers and PDFs
+refs/*
+!refs/README.md
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# Stata
+*.smcl
+*.log
+
+# OS / editor
+.DS_Store
+*~
+.vscode/
+.idea/
